@@ -5,7 +5,8 @@ NGINX (pronounced "engine x") is a free, open-source web server known for its hi
 
 **Tutorial** 
 1. nginx doc: https://nginx.org/
-2. 
+2. What is Nginx? : https://www.youtube.com/watch?v=b_B1BEShfBc
+3. How NGINX Handles MILLIONS of Requests With Just 1 Process : https://www.youtube.com/watch?v=I6dpN0geIb4
 
 
 
@@ -19,7 +20,15 @@ NGINX (pronounced "engine x") is a free, open-source web server known for its hi
 - **Resource Efficiency**: Uses an asynchronous, event-driven architecture rather than creating new threads for every request, reducing RAM usage under heavy loads.
 - **Security & SSL**: Can easily handle SSL/TLS encryption and decryption before passing traffic to backend applications.
 
-##
+## NGINX Features
++ Handles 10,000+ concurrent connections efficiently
++ Cache HTTP Requests
++ Caches HTTP responses to improve performance
++ Acts as a Reverse Proxy
++ Acts as a Load Balancer
++ Act as an API Gateway
++ Serves and caches static assets (images, CSS, JavaScript, videos, etc.)
++ Manages SSL/TLS certificates and HTTPS termination
 
 ## What Top Companies Commonly Use?
 - Netflix → Nginx + custom infrastructure
