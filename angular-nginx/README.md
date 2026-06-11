@@ -3,6 +3,8 @@
 **Tutorials**
 1. Deploy angular app on nginx from scratch | Deploying angular in nginx server on Windows : https://www.youtube.com/watch?v=Wf-6idVVis4
 2. Dockerize an Angular Application using Nginx : https://www.youtube.com/watch?v=-o5l6zFJ9_o
+3. How to Deploy an Angular Application 2024 (Docker, Nginx & Digitalocean) : https://www.youtube.com/watch?v=ERVAFkj66QQ
+4. deploying-angular-apps-nginx-docker : https://www.telerik.com/blogs/deploying-angular-apps-nginx-docker
 
 In production, Angular is usually served through Nginx, not directly through Angular's development server (ng serve).
 
