@@ -13,6 +13,70 @@ NGINX (pronounced "engine x") is a free, open-source web server known for its hi
 - **Resource Efficiency**: Uses an asynchronous, event-driven architecture rather than creating new threads for every request, reducing RAM usage under heavy loads.
 - **Security & SSL**: Can easily handle SSL/TLS encryption and decryption before passing traffic to backend applications.
 
+## What Top Companies Commonly Use?
+- Netflix → Nginx + custom infrastructure
+- Airbnb → Nginx as reverse proxy
+- Dropbox → Nginx extensively
+- GitHub → Nginx and HAProxy combinations
+- Cloudflare → Nginx-inspired and custom proxy technologies
+
+## Nginx vs other servers
+Nginx is primarily chosen for reverse proxying, SSL termination, static file serving, API gateway functionality, caching, and load balancing. Apache remains common in legacy environments, HAProxy excels at high-performance load balancing, and Caddy simplifies HTTPS management. In modern microservices and cloud-native architectures, Nginx is often the default front-door server because it efficiently handles large numbers of concurrent connections while integrating well with application servers such as Node.js, Java Spring Boot, and .NET.
+
+| Feature             | Nginx       | Apache HTTP Server | HAProxy     | Caddy       |
+| ------------------- | ----------- | ------------------ | ----------- | ----------- |
+| Web Server          | ✅           | ✅                  | ❌           | ✅           |
+| Reverse Proxy       | ✅           | ✅                  | ✅ Excellent | ✅           |
+| Load Balancer       | ✅           | Basic              | ✅ Best      | ✅           |
+| Static File Serving | ✅ Excellent | ✅ Good             | ❌           | ✅           |
+| SSL/TLS             | ✅           | ✅                  | ✅           | ✅ Automatic |
+| Memory Usage        | Low         | Higher             | Very Low    | Low         |
+| Configuration       | Moderate    | Easy               | Advanced    | Very Easy   |
+| Enterprise Usage    | Very High   | High               | Very High   | Growing     |
+
+```
+Need Web Server?
+   → Nginx
+
+Need Advanced Load Balancing?
+   → HAProxy
+
+Need Both?
+   → HAProxy + Nginx
+```
+HAProxy can handle millions of connections and is often used in banks, telecoms, and large SaaS platforms.
+
+## Modern Enterprise Banking Architecture
+```
+                    Internet
+                        │
+                        ▼
+                    Nginx
+              (Reverse Proxy)
+                        │
+         ┌──────────────┼──────────────┐
+         ▼              ▼              ▼
+     Node API 1     Node API 2     Node API 3
+                        │
+                        ▼
+                     Redis
+                        │
+                        ▼
+                   PostgreSQL
+```
+
+Nginx responsibilities:
+- SSL/TLS termination
+- Rate limiting
+- Load balancing
+- Static asset serving
+- Response caching
+
+Redis responsibilities:
+- Session storage
+- Token storage
+- Data caching
+
 ## Redis vs Nginx
 | Feature              | Redis Cache                                    | Nginx Cache                                  |
 | -------------------- | ---------------------------------------------- | -------------------------------------------- |
