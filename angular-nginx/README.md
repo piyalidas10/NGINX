@@ -6,7 +6,10 @@
 3. How to Deploy an Angular Application 2024 (Docker, Nginx & Digitalocean) : https://www.youtube.com/watch?v=ERVAFkj66QQ
 4. deploying-angular-apps-nginx-docker : https://www.telerik.com/blogs/deploying-angular-apps-nginx-docker
 
-In production, Angular is usually served through Nginx, not directly through Angular's development server (ng serve).
+
+**✅ Angular can run in Docker without Nginx using ng serve (development).**   
+**✅ For production, Angular is usually served by Nginx (or another web server) inside Docker because Angular becomes static files after ng build.**  
+**✅ In production, Angular is usually served through Nginx, not directly through Angular's development server (ng serve).**   
 
 **Development Environment**
 ```
@@ -163,3 +166,114 @@ https://mybank.com:3000
 Angular is typically built into static files (HTML, JavaScript, CSS) using ng build. 
 Nginx serves these static assets, handles HTTPS, compression, browser caching, and acts as a reverse proxy for backend APIs.
 In production, users access Angular through Nginx rather than the Angular development server.
+
+## Angular normally can't run inside Docker without Nginx ?
+Yes, Angular can run inside Docker without Nginx, but it depends on whether you're running it in development mode or production mode.
+
+Option 1: Angular without Nginx (Development)
+----------------------------------------------------------------------------------
+You can run Angular's built-in development server (ng serve) inside Docker.
+
+**Dockerfile**
+```
+FROM node:22
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 4200
+
+CMD ["npm", "start"]
+```
+
+**Run**
+```
+docker build -t angular-app .
+docker run -p 4200:4200 angular-app
+```
+
+**Angular CLI starts:**
+```
+ng serve --host 0.0.0.0
+```
+
+**Architecture:**
+```
+Browser
+   │
+   ▼
+Angular Dev Server (ng serve)
+   │
+   ▼
+Docker Container
+```
+
+**Problems**
+- Not optimized
+- Larger memory usage
+- Slower
+- No compression
+- No caching
+- Not recommended for production
+
+
+Option 2: Angular with Nginx (Production)
+----------------------------------------------------------------------------------
+**Build Angular and serve static files through Nginx.**
+```
+Build Angular
+ng build --configuration production
+```
+
+**Generated files:**
+```
+dist/
+ ├── index.html
+ ├── main.js
+ ├── styles.css
+ └── assets/
+```
+
+**Dockerfile**
+```
+# Build Stage
+FROM node:22 AS build
+
+WORKDIR /app
+
+COPY . .
+RUN npm install
+RUN npm run build
+
+# Runtime Stage
+FROM nginx:alpine
+
+COPY --from=build /app/dist/my-app/browser /usr/share/nginx/html
+
+EXPOSE 80
+```
+
+**Architecture:**
+```
+Browser
+   │
+   ▼
+Nginx
+   │
+   ▼
+Angular Static Files
+(index.html, JS, CSS)
+```
+
+**Benefits:**
+- Fast
+- Gzip compression
+- Browser caching
+- SPA routing support
+- Production ready
+
+
