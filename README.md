@@ -1,7 +1,13 @@
 # NGINX
-- Tutorial : https://nginx.org/
-
 NGINX (pronounced "engine x") is a free, open-source web server known for its high performance, stability, and low resource usage. Beyond serving static web pages, it frequently acts as a reverse proxy, load balancer, API gateway, and HTTP cache.
+
+<img src="./imgs/nginx.png" width="80%" />
+
+**Tutorial** 
+1. nginx doc: https://nginx.org/
+2. 
+
+
 
 ## Core Capabilities
 - **Reverse Proxy**: Intercepts client requests and forwards them to backend servers, hiding the internal network structure for enhanced security and performance.
@@ -12,6 +18,8 @@ NGINX (pronounced "engine x") is a free, open-source web server known for its hi
 - **High Concurrency**: Designed to handle thousands of simultaneous connections with a very small memory footprint, making it ideal for high-traffic environments.
 - **Resource Efficiency**: Uses an asynchronous, event-driven architecture rather than creating new threads for every request, reducing RAM usage under heavy loads.
 - **Security & SSL**: Can easily handle SSL/TLS encryption and decryption before passing traffic to backend applications.
+
+##
 
 ## What Top Companies Commonly Use?
 - Netflix → Nginx + custom infrastructure
