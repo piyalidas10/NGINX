@@ -160,12 +160,41 @@ https://mybank.com:3000
                                  Redis
                                    │
                                    ▼
-                              PostgreSQL
+                              Database
 ```
 
 Angular is typically built into static files (HTML, JavaScript, CSS) using ng build. 
 Nginx serves these static assets, handles HTTPS, compression, browser caching, and acts as a reverse proxy for backend APIs.
 In production, users access Angular through Nginx rather than the Angular development server.
+
+## Enterprise Angular + Node.js + Redis + Nginx
+```
+                     Browser
+                        │
+                        ▼
+                 ┌────────────┐
+                 │   Nginx    │
+                 └─────┬──────┘
+                       │
+        ┌──────────────┼──────────────┐
+        ▼                             ▼
+ Angular Static Files          Node.js APIs
+                                     │
+                                     ▼
+                               Redis Cache
+                                     │
+                                     ▼
+                                 Database
+```
+
+**Request Flow**
+1. Browser requests Angular app → Nginx serves static files.
+2. Angular calls /api/orders.
+3. Nginx forwards request to Node.js.
+4. Node.js checks Redis cache.
+5. If cache miss → database query.
+6. Result stored in Redis.
+7. Response returned through Nginx.
 
 ## Angular normally can't run inside Docker without Nginx ?
 Yes, Angular can run inside Docker without Nginx, but it depends on whether you're running it in development mode or production mode.
