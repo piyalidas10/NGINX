@@ -6,6 +6,73 @@
 3. How to Deploy an Angular Application 2024 (Docker, Nginx & Digitalocean) : https://www.youtube.com/watch?v=ERVAFkj66QQ
 4. deploying-angular-apps-nginx-docker : https://www.telerik.com/blogs/deploying-angular-apps-nginx-docker
 
+## Run Application
+
+**Build Docker Image**
+```
+docker build -t angular-nginx-demo .
+```
+**Run Container**
+```
+docker run -p 8080:80 angular-nginx-demo
+```
+
+**Production Enterprise Flow**
+```
+User
+ │
+ ▼
+NGINX
+ │
+ ├── Angular Static Files
+ │      └── Cached 30 Days
+ │
+ └── API Requests
+        │
+        └── Rate Limited
+                │
+                ▼
+            Backend
+```
+
+**Verify Static Asset Caching**
+
+Open browser DevTools → Network. You should see headers similar to:
+```
+Cache-Control: public,max-age=2592000
+Expires: Sun, 12 Jul 2026 ...
+```
+This means:
+```
+logo.png
+main.js
+styles.css
+```
+Cached for 30 days
+
+**Verify Rate Limiting**
+
+Click:
+```
+Trigger 20 API Calls
+```
+Nginx allows:
+```
+5 requests/sec
+Burst = 10
+```
+You will see:
+```
+200 OK
+```
+for allowed requests and eventually:
+```
+429 Too Many Requests
+```
+for excess requests.
+
+
+## Why NGINX ?
 
 **✅ Angular can run in Docker without Nginx using ng serve (development).**   
 **✅ For production, Angular is usually served by Nginx (or another web server) inside Docker because Angular becomes static files after ng build.**  
