@@ -1,5 +1,11 @@
 # NGINX with Angular
 
+**Here's a complete example that demonstrates:**
++ Serve Angular Static Files
++ Cache Static Assets
++ Rate Limiting
++ Dockerized Angular + Nginx
+
 **Tutorials**
 1. Deploy angular app on nginx from scratch | Deploying angular in nginx server on Windows : https://www.youtube.com/watch?v=Wf-6idVVis4
 2. Dockerize an Angular Application using Nginx : https://www.youtube.com/watch?v=-o5l6zFJ9_o
