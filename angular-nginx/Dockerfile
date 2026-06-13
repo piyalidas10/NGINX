@@ -23,7 +23,7 @@ FROM nginx:alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 
 COPY --from=build \
-     /app/dist/angular-nginx-demo/browser \
+     /app/dist/angular-nginx/browser \
      /usr/share/nginx/html
 
 EXPOSE 80

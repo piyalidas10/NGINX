@@ -14,14 +14,74 @@
 
 ## Run Application
 
-**Build Docker Image**
 ```
-docker build -t angular-nginx-demo .
+docker compose up -d --build
 ```
-**Run Container**
+
+Whenever you modify Angular code:
 ```
-docker run -p 8080:80 angular-nginx-demo
+docker compose down
+docker compose build --no-cache
+docker compose up -d
 ```
+This will:
+1. npm run build
+2. Generate dist/angular-nginx/browser
+3. Create new Docker image
+4. Restart Nginx container
+
+Now Open browser
+```
+http://localhost:8080/
+```
+<img src="imgs/run_1.png" width="100%" />
+
+Your screenshot actually proves that Nginx caching is configured correctly.
+
+I can see these response headers:
+```
+Cache-Control: max-age=2592000
+Cache-Control: public, max-age=2592000, immutable
+Expires: Sun, 12 Jul 2026 ...
+ETag: "..."
+Last-Modified: ...
+```
+So Nginx is telling Chrome:
+```
+Cache this file for 30 days.
+```
+
+Click on "Test rate limit" button
+<img src="imgs/run_2.png" width="100%" />
+
+**✅ "Nginx is serving the Angular build files, and Angular is running in the user's browser."**
+
+
+**Caching is working. The key evidence is:**
+```
+styles-*.css          (memory cache)
+polyfills-*.js        (disk cache)
+main-*.js             (disk cache)
+```
+
+**Verify Nginx Cache Headers**   
+Click:   
+```
+main-A3LKCZJ3.js
+```
+Then check:
+```
+Headers
+```
+You should see something like:
+```
+Cache-Control: public, max-age=2592000
+Expires: ...
+ETag: ...
+Last-Modified: ...
+```
+If you see these headers, Nginx is controlling browser caching exactly as configured.
+
 
 **Production Enterprise Flow**
 ```

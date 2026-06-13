@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+
+  angular-nginx:
+    container_name: angular-nginx
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    ports:
+      - "8080:80"
+
+    depends_on:
+      - backend
+
+    restart: unless-stopped
+
+  backend:
+    container_name: backend
+
+    image: node:22-alpine
+
+    working_dir: /app
+
+    volumes:
+      - ./backend:/app
+
+    command: sh -c "npm install && node server.js"
+
+    expose:
+      - "3000"
+
+    restart: unless-stopped
