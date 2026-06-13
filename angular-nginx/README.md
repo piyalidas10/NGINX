@@ -30,7 +30,8 @@ This will:
 3. Create new Docker image
 4. Restart Nginx container
 
-Now Open browser
+
+**Now Open browser**
 ```
 http://localhost:8080/
 ```
@@ -51,37 +52,7 @@ So Nginx is telling Chrome:
 Cache this file for 30 days.
 ```
 
-Click on "Test rate limit" button
-<img src="imgs/run_2.png" width="100%" />
-
 **✅ "Nginx is serving the Angular build files, and Angular is running in the user's browser."**
-
-
-**Caching is working. The key evidence is:**
-```
-styles-*.css          (memory cache)
-polyfills-*.js        (disk cache)
-main-*.js             (disk cache)
-```
-
-**Verify Nginx Cache Headers**   
-Click:   
-```
-main-A3LKCZJ3.js
-```
-Then check:
-```
-Headers
-```
-You should see something like:
-```
-Cache-Control: public, max-age=2592000
-Expires: ...
-ETag: ...
-Last-Modified: ...
-```
-If you see these headers, Nginx is controlling browser caching exactly as configured.
-
 
 **Production Enterprise Flow**
 ```
@@ -116,11 +87,14 @@ styles.css
 ```
 Cached for 30 days
 
+**Click on "Test rate limit" button**  
+<img src="imgs/run_2.png" width="100%" />
+
 **Verify Rate Limiting**
 
 Click:
 ```
-Trigger 20 API Calls
+Trigger 30 API Calls
 ```
 Nginx allows:
 ```
@@ -136,6 +110,54 @@ for allowed requests and eventually:
 429 Too Many Requests
 ```
 for excess requests.
+
+## /usr/share/nginx/html
+/usr/share/nginx/html is the default web root directory inside the Nginx container.
+Think of it as:
+```
+Browser Request
+      │
+      ▼
+http://localhost:8080/index.html
+      │
+      ▼
+Nginx looks here:
+/usr/share/nginx/html/index.html
+```
+
+**In My Docker setup**
+
+Your Angular production build creates:
+```
+dist/
+└── angular-nginx/
+    └── browser/
+        ├── index.html
+        ├── main.js
+        ├── styles.css
+        └── assets/
+```
+Dockerfile probably contains:
+```
+FROM nginx:alpine
+
+COPY --from=build \
+     /app/dist/angular-nginx/browser \
+     /usr/share/nginx/html
+```
+This copies Angular files into Nginx's web root.
+
+After the copy:
+```
+/usr/share/nginx/html
+├── index.html
+├── main.js
+├── styles.css
+└── assets
+```
+
+<img src="imgs/docker_container.png" width="100%" />
+<img src="imgs/docker_nginx_webroot.png" width="100%" />
 
 
 ## Why NGINX ?

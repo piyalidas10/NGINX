@@ -16,6 +16,7 @@ RUN npm run build
 
 ###########################
 # Stage 2 Nginx
+# This stage serves the Angular app using Nginx
 ###########################
 
 FROM nginx:alpine
