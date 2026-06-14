@@ -339,8 +339,6 @@ Yes, it is highly correct and considered an industry best practice to run a prod
 | **Concurrent Users**        | Hundreds        | Thousands to Millions |
 | **Docker Deployment**       | Not Recommended | Recommended           |
 
-
-
 ## Development Environment
 ```
 Browser
